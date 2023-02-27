@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.IO.Compression;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
@@ -6,20 +8,19 @@ namespace ZipArchive
     public partial class ZipUnzip : Form
     {
         List<String> sourceFileDirectory = new List<String>();
+        List<String> sourceFilePaths = new List<String>();
         public ZipUnzip()
         {
             InitializeComponent();
         }
 
-        private void deleteIfExists (string zipFileName)
+        private void deleteIfExists(string zipFileName)
         {
-            foreach (string path in sourceFileDirectory)
+
+            //MessageBox.Show("Delete if exists: " + zipFileName);
+            if (File.Exists(zipFileName))
             {
-                MessageBox.Show("Chosen folder: " + zipFileName);
-                if (File.Exists(zipFileName))
-                {
-                    File.Delete(zipFileName);
-                }
+                File.Delete(zipFileName);
             }
         }
 
@@ -34,32 +35,38 @@ namespace ZipArchive
             return filesPaths;
         }
 
+
+        // Chose all files in folder
         private void btnFolder_Click(object sender, EventArgs e)
         {
+            lblZipDone.Visible = false;
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select your path.";
-            if(fbd.ShowDialog() == DialogResult.OK )
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
                 txtFolder.Text = fbd.SelectedPath;
-                textDestFolder.Text = fbd.SelectedPath;
                 sourceFileDirectory.Add(@fbd.SelectedPath);
             }
         }
 
+        //Chose specific files in folder
         private void btnFileNames_Click(object sender, EventArgs e)
         {
-            using(OpenFileDialog ofd = new OpenFileDialog() { Filter = "All files|*.*", ValidateNames=true, Multiselect=true}) 
-            { 
-                if(ofd.ShowDialog() == DialogResult.OK )
+            lblZipDone.Visible = false;
+            using (OpenFileDialog ofd = new OpenFileDialog() { Filter = "All files|*.*", ValidateNames = true, Multiselect = true })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    foreach(string path in ofd.FileNames)
+                    sourceFilePaths = ofd.FileNames.ToList();
+                    foreach (string path in ofd.FileNames)
                     {
-                        txtFileNames.Text += path;
+                        txtFileNames.Text += Path.GetFileName(path) + ", ";
                     }
                 }
             }
         }
 
+        // Zip selected folder
         private void btnZipFolder_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtFolder.Text))
@@ -68,21 +75,22 @@ namespace ZipArchive
                 txtFolder.Focus();
                 return;
             }
-            //MessageBox.Show("Chosen folder: " + txtFolder.Text, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             IEnumerable<string> filePaths = GetFilePaths(sourceFileDirectory);
 
-            var zipFileName = (textDestFolder.Text + ".zip");
-            //MessageBox.Show("textDestFolder.Text: " + textDestFolder.Text, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string zipFileName = (txtFolder.Text + ".zip");
             deleteIfExists(zipFileName);
             using var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create);
 
-            foreach(string filePath in filePaths)
+            foreach (string filePath in filePaths)
             {
                 string fileName = Path.GetFileName(filePath);
                 zip.CreateEntryFromFile(filePath, fileName);
             }
+            lblZipDone.Visible = true;
+            Process.Start("explorer.exe", Path.GetDirectoryName(txtFolder.Text) + "");
         }
 
+        //Zip selected files
         private void btnZipFiles_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtFileNames.Text))
@@ -91,9 +99,18 @@ namespace ZipArchive
                 txtFolder.Focus();
                 return;
             }
-            string path = txtFileNames.Text;
-            MessageBox.Show("Chosen files: " + txtFileNames.Text, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return;
+            string dirPath = Path.GetDirectoryName(sourceFilePaths.First()) + "";
+            string zipFileName = dirPath + ".zip";
+            deleteIfExists(zipFileName);
+            using var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+
+            foreach (string filePath in sourceFilePaths)
+            {
+                string fileName = Path.GetFileName(filePath);
+                zip.CreateEntryFromFile(filePath, fileName);
+            }
+            lblZipDone.Visible = true;
+            Process.Start("explorer.exe", Path.GetDirectoryName(dirPath)+"");
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
@@ -101,15 +118,43 @@ namespace ZipArchive
 
         }
 
-        private void btnDestFolder_Click(object sender, EventArgs e)
+        //Chose Zip file to unzip
+        private void btnChsZipFile_Click(object sender, EventArgs e)
         {
+            lblUnzipDone.Visible = false;
+            using (OpenFileDialog ofd = new OpenFileDialog() { Filter = "All files|*.zip", ValidateNames = true, Multiselect = false })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    txtChsZipFile.Text = ofd.FileName;
+                    txtUnzipDest.Text = Path.GetDirectoryName(ofd.FileName);
+                }
+            }
+        }
+
+        //Unzip selected file
+        private void btnUnzipFile_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtChsZipFile.Text))
+            {
+                MessageBox.Show("Please select your files.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtFolder.Focus();
+                return;
+            }
+            ZipFile.ExtractToDirectory(txtChsZipFile.Text, txtUnzipDest.Text, true);
+            lblUnzipDone.Visible = true;
+            Process.Start("explorer.exe", txtUnzipDest.Text);
+        }
+
+        private void btnDestUnzip_Click(object sender, EventArgs e)
+        {
+            lblUnzipDone.Visible = false;
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select your destination path.";
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                textDestFolder.Text = fbd.SelectedPath;
+                txtUnzipDest.Text = fbd.SelectedPath;
             }
         }
-
     }
 }

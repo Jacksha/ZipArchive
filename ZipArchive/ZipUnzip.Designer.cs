@@ -30,7 +30,6 @@
         {
             this.Zip = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnZipFiles = new System.Windows.Forms.Button();
@@ -41,14 +40,22 @@
             this.btnFolder = new System.Windows.Forms.Button();
             this.txtFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnDestFolder = new System.Windows.Forms.Button();
-            this.textDestFolder = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblUnzipDone = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnDestUnzip = new System.Windows.Forms.Button();
+            this.txtUnzipDest = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnUnzipFile = new System.Windows.Forms.Button();
+            this.btnChsZipFile = new System.Windows.Forms.Button();
+            this.txtChsZipFile = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblZipDone = new System.Windows.Forms.Label();
             this.Zip.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Zip
@@ -58,34 +65,21 @@
             this.Zip.Location = new System.Drawing.Point(12, 12);
             this.Zip.Name = "Zip";
             this.Zip.SelectedIndex = 0;
-            this.Zip.Size = new System.Drawing.Size(575, 391);
+            this.Zip.Size = new System.Drawing.Size(575, 300);
             this.Zip.TabIndex = 9;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.lblZipDone);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.btnDestFolder);
-            this.tabPage1.Controls.Add(this.textDestFolder);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.progressBar);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(567, 363);
+            this.tabPage1.Size = new System.Drawing.Size(567, 272);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Zip";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 302);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 15);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Progress:";
             // 
             // groupBox1
             // 
@@ -103,7 +97,7 @@
             this.groupBox1.Size = new System.Drawing.Size(564, 163);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Chose Folder/Files to unzip";
+            this.groupBox1.Text = "Chose Folder/Files to zip";
             // 
             // label3
             // 
@@ -188,55 +182,127 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "Chose Folder:";
             // 
-            // btnDestFolder
-            // 
-            this.btnDestFolder.Location = new System.Drawing.Point(416, 196);
-            this.btnDestFolder.Name = "btnDestFolder";
-            this.btnDestFolder.Size = new System.Drawing.Size(46, 24);
-            this.btnDestFolder.TabIndex = 21;
-            this.btnDestFolder.Text = "...";
-            this.btnDestFolder.UseVisualStyleBackColor = true;
-            this.btnDestFolder.Click += new System.EventHandler(this.btnDestFolder_Click);
-            // 
-            // textDestFolder
-            // 
-            this.textDestFolder.Location = new System.Drawing.Point(105, 197);
-            this.textDestFolder.Name = "textDestFolder";
-            this.textDestFolder.ReadOnly = true;
-            this.textDestFolder.Size = new System.Drawing.Size(305, 23);
-            this.textDestFolder.TabIndex = 20;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 200);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 15);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Destonation:";
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(105, 302);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(305, 23);
-            this.progressBar.TabIndex = 17;
-            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lblUnzipDone);
+            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(567, 363);
+            this.tabPage2.Size = new System.Drawing.Size(567, 272);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "UnZip";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lblUnzipDone
+            // 
+            this.lblUnzipDone.AutoSize = true;
+            this.lblUnzipDone.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblUnzipDone.ForeColor = System.Drawing.Color.Green;
+            this.lblUnzipDone.Location = new System.Drawing.Point(225, 200);
+            this.lblUnzipDone.Name = "lblUnzipDone";
+            this.lblUnzipDone.Size = new System.Drawing.Size(106, 32);
+            this.lblUnzipDone.TabIndex = 26;
+            this.lblUnzipDone.Text = "Done! :)";
+            this.lblUnzipDone.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnDestUnzip);
+            this.groupBox2.Controls.Add(this.txtUnzipDest);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.btnUnzipFile);
+            this.groupBox2.Controls.Add(this.btnChsZipFile);
+            this.groupBox2.Controls.Add(this.txtChsZipFile);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(0, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(564, 163);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Chose Files to unzip";
+            // 
+            // btnDestUnzip
+            // 
+            this.btnDestUnzip.Location = new System.Drawing.Point(416, 113);
+            this.btnDestUnzip.Name = "btnDestUnzip";
+            this.btnDestUnzip.Size = new System.Drawing.Size(46, 24);
+            this.btnDestUnzip.TabIndex = 25;
+            this.btnDestUnzip.Text = "...";
+            this.btnDestUnzip.UseVisualStyleBackColor = true;
+            this.btnDestUnzip.Click += new System.EventHandler(this.btnDestUnzip_Click);
+            // 
+            // txtUnzipDest
+            // 
+            this.txtUnzipDest.Location = new System.Drawing.Point(105, 114);
+            this.txtUnzipDest.Name = "txtUnzipDest";
+            this.txtUnzipDest.ReadOnly = true;
+            this.txtUnzipDest.Size = new System.Drawing.Size(305, 23);
+            this.txtUnzipDest.TabIndex = 24;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 117);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(70, 15);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "Destination:";
+            // 
+            // btnUnzipFile
+            // 
+            this.btnUnzipFile.Location = new System.Drawing.Point(477, 37);
+            this.btnUnzipFile.Name = "btnUnzipFile";
+            this.btnUnzipFile.Size = new System.Drawing.Size(68, 23);
+            this.btnUnzipFile.TabIndex = 22;
+            this.btnUnzipFile.Text = "Unzip";
+            this.btnUnzipFile.UseVisualStyleBackColor = true;
+            this.btnUnzipFile.Click += new System.EventHandler(this.btnUnzipFile_Click);
+            // 
+            // btnChsZipFile
+            // 
+            this.btnChsZipFile.Location = new System.Drawing.Point(416, 37);
+            this.btnChsZipFile.Name = "btnChsZipFile";
+            this.btnChsZipFile.Size = new System.Drawing.Size(46, 24);
+            this.btnChsZipFile.TabIndex = 21;
+            this.btnChsZipFile.Text = "...";
+            this.btnChsZipFile.UseVisualStyleBackColor = true;
+            this.btnChsZipFile.Click += new System.EventHandler(this.btnChsZipFile_Click);
+            // 
+            // txtChsZipFile
+            // 
+            this.txtChsZipFile.Location = new System.Drawing.Point(105, 38);
+            this.txtChsZipFile.Name = "txtChsZipFile";
+            this.txtChsZipFile.ReadOnly = true;
+            this.txtChsZipFile.Size = new System.Drawing.Size(305, 23);
+            this.txtChsZipFile.TabIndex = 20;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(20, 41);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(64, 15);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Chose File:";
+            // 
+            // lblZipDone
+            // 
+            this.lblZipDone.AutoSize = true;
+            this.lblZipDone.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblZipDone.ForeColor = System.Drawing.Color.Green;
+            this.lblZipDone.Location = new System.Drawing.Point(225, 200);
+            this.lblZipDone.Name = "lblZipDone";
+            this.lblZipDone.Size = new System.Drawing.Size(106, 32);
+            this.lblZipDone.TabIndex = 27;
+            this.lblZipDone.Text = "Done! :)";
+            this.lblZipDone.Visible = false;
             // 
             // ZipUnzip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 415);
+            this.ClientSize = new System.Drawing.Size(599, 333);
             this.Controls.Add(this.Zip);
             this.Name = "ZipUnzip";
             this.Text = "Zip/Unzip";
@@ -245,6 +311,10 @@
             this.tabPage1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -253,12 +323,7 @@
 
         private TabControl Zip;
         private TabPage tabPage1;
-        private ProgressBar progressBar;
         private TabPage tabPage2;
-        private Button btnDestFolder;
-        private TextBox textDestFolder;
-        private Label label4;
-        private Label label5;
         private GroupBox groupBox1;
         private Label label3;
         private Button btnZipFiles;
@@ -269,5 +334,15 @@
         private Button btnFolder;
         private TextBox txtFolder;
         private Label label1;
+        private Label lblUnzipDone;
+        private GroupBox groupBox2;
+        private Button btnDestUnzip;
+        private TextBox txtUnzipDest;
+        private Label label7;
+        private Button btnUnzipFile;
+        private Button btnChsZipFile;
+        private TextBox txtChsZipFile;
+        private Label label8;
+        private Label lblZipDone;
     }
 }
